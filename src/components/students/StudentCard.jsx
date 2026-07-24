@@ -1,11 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useStudentContext } from '../../context/StudentContext';
+import { toast } from 'react-toastify';
 import './StudentCard.css';
 
 const StudentCard = ({ student }) => {
+  const navigate = useNavigate();
+  const { deleteStudent } = useStudentContext();
+
   if (!student) {
     return null;
   }
+
+  const handleDelete = async (e) => {
+    e.preventDefault(); // Prevent navigation to details
+    e.stopPropagation();
+    
+    if (window.confirm(`Are you sure you want to delete ${student.name}?`)) {
+      try {
+        await deleteStudent(student.id);
+        toast.success('Student deleted successfully');
+      } catch (err) {
+        toast.error('Failed to delete student');
+      }
+    }
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault(); // Prevent navigation to details
+    e.stopPropagation();
+    navigate(`/students/${student.id}`, { state: { edit: true } });
+  };
 
   const getInitials = (name) => {
     if (!name) return '?';
@@ -25,7 +50,7 @@ const StudentCard = ({ student }) => {
   };
 
   return (
-    <Link to={`/students/${student.id}`} className="student-card-link">
+    <div className="student-card-container" onClick={() => navigate(`/students/${student.id}`)}>
       <div className="student-card">
         <div className="student-card-header">
           <div
@@ -39,6 +64,22 @@ const StudentCard = ({ student }) => {
             {student.age && (
               <span className="student-age">{student.age} years old</span>
             )}
+          </div>
+          <div className="card-actions">
+            <button 
+              className="action-icon-btn edit-btn" 
+              onClick={handleEdit}
+              title="Edit Student"
+            >
+              ✏️
+            </button>
+            <button 
+              className="action-icon-btn delete-btn" 
+              onClick={handleDelete}
+              title="Delete Student"
+            >
+              🗑️
+            </button>
           </div>
         </div>
 
@@ -57,7 +98,7 @@ const StudentCard = ({ student }) => {
           <span className="view-details">View Details →</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

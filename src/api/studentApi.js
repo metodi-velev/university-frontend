@@ -38,4 +38,18 @@ export const studentApi = {
     const response = await apiClient.post(BASE_PATH, studentData);
     return response.data;
   },
+
+  // Update existing student
+  updateStudent: async (id, studentData) => {
+    console.log(`📡 API Call: PUT /students/${id}`, studentData);
+    const response = await apiClient.put(`${BASE_PATH}/${id}`, studentData);
+    return response.data;
+  },
+
+  // Delete student
+  deleteStudent: async (id) => {
+    console.log(`📡 API Call: DELETE /students/${id}`);
+    const response = await apiClient.delete(`${BASE_PATH}/${id}`);
+    return response.data;
+  },
 };

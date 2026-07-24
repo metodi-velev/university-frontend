@@ -5,8 +5,10 @@ import { toast } from 'react-toastify';
 import './StudentForm.css';
 
 const StudentForm = ({ initialValues, onSuccess, onCancel }) => {
-  const { createStudent } = useStudentContext();
+  const { createStudent, updateStudent } = useStudentContext();
   const { register, handleSubmit, errors, isSubmitting, reset } = useStudentForm(initialValues);
+  
+  const isEditMode = !!initialValues?.id;
 
   const onSubmit = async (data) => {
     try {
@@ -16,19 +18,25 @@ const StudentForm = ({ initialValues, onSuccess, onCancel }) => {
         age: data.age ? parseInt(data.age, 10) : null,
       };
 
-      await createStudent(studentData);
-      toast.success('Student created successfully! 🎉');
+      if (isEditMode) {
+        await updateStudent(initialValues.id, studentData);
+        toast.success('Student updated successfully! 🎉');
+      } else {
+        await createStudent(studentData);
+        toast.success('Student created successfully! 🎉');
+      }
+      
       reset();
       if (onSuccess) onSuccess();
     } catch (error) {
-      toast.error(error.message || 'Failed to create student');
+      toast.error(error.message || `Failed to ${isEditMode ? 'update' : 'create'} student`);
     }
   };
 
   return (
     <div className="student-form-container">
       <div className="form-header">
-        <h2 className="form-title">Add New Student</h2>
+        <h2 className="form-title">{isEditMode ? 'Edit Student' : 'Add New Student'}</h2>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="student-form">
@@ -91,10 +99,10 @@ const StudentForm = ({ initialValues, onSuccess, onCancel }) => {
             {isSubmitting ? (
               <>
                 <span className="spinner-small"></span>
-                Creating...
+                {isEditMode ? 'Updating...' : 'Creating...'}
               </>
             ) : (
-              'Create Student'
+              isEditMode ? 'Update Student' : 'Create Student'
             )}
           </button>
           <button

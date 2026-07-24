@@ -1,7 +1,8 @@
-.student-card-link {
+.student-card-container {
   text-decoration: none;
   color: inherit;
   display: block;
+  cursor: pointer;
 }
 
 .student-card {
@@ -13,6 +14,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .student-card:hover {
@@ -24,6 +26,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .student-avatar {
@@ -43,6 +46,7 @@
 .student-card-title {
   flex: 1;
   min-width: 0;
+  padding-right: 60px; /* Make space for actions */
 }
 
 .student-name {
@@ -50,11 +54,47 @@
   font-size: 16px;
   font-weight: 600;
   color: #2d3748;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .student-age {
   font-size: 14px;
   color: #718096;
+}
+
+.card-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.action-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon-btn:hover {
+  background-color: #f7fafc;
+}
+
+.edit-btn:hover {
+  background-color: #ebf8ff;
+}
+
+.delete-btn:hover {
+  background-color: #fff5f5;
 }
 
 .student-card-body {

@@ -76,6 +76,43 @@ export const StudentProvider = ({ children }) => {
     }
   }, [fetchAllStudents]);
 
+  const updateStudent = useCallback(async (id, studentData) => {
+    console.log(`📝 Updating student ${id}:`, studentData);
+    setLoading(true);
+    setError(null);
+    try {
+      const updatedStudent = await studentApi.updateStudent(id, studentData);
+      console.log('✅ Student updated:', updatedStudent);
+      await fetchAllStudents();
+      return updatedStudent;
+    } catch (err) {
+      console.error('❌ Error updating student:', err);
+      const errorMessage = err.response?.data?.message || 'Failed to update student';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchAllStudents]);
+
+  const deleteStudent = useCallback(async (id) => {
+    console.log(`🗑️ Deleting student ${id}`);
+    setLoading(true);
+    setError(null);
+    try {
+      await studentApi.deleteStudent(id);
+      console.log('✅ Student deleted');
+      await fetchAllStudents();
+    } catch (err) {
+      console.error('❌ Error deleting student:', err);
+      const errorMessage = err.response?.data?.message || 'Failed to delete student';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchAllStudents]);
+
   const clearSearch = useCallback(() => {
     console.log('🧹 Clearing search');
     setSearchEmail('');
@@ -103,6 +140,8 @@ export const StudentProvider = ({ children }) => {
     fetchAllStudents,
     searchStudentByEmail,
     createStudent,
+    updateStudent,
+    deleteStudent,
     clearSearch,
     toggleForm,
     openForm,
