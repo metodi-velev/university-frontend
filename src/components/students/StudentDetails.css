@@ -1,0 +1,79 @@
+.student-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.student-details-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-top: 24px;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.details-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4299e1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 600;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.details-title {
+  flex: 1;
+}
+
+.details-title h1 {
+  margin: 0 0 4px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.details-subtitle {
+  color: #718096;
+  margin: 0;
+  font-size: 16px;
+}
+
+.details-body {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 24px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  color: #718096;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.detail-value {
+  color: #2d3748;
+  font-size: 16px;
+  font-weight: 500;
+}
